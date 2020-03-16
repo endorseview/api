@@ -102,7 +102,7 @@ func SaveUser(u models.User, db *gorm.DB) (*models.User, error) {
 	if err != nil {
 		return &models.User{}, err
 	}
-	return &models.User{}, nil
+	return &u, nil
 }
 
 func FindAllUsers(db *gorm.DB) (*[]models.User, error) {
