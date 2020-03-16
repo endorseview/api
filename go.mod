@@ -1,4 +1,4 @@
-module github.com/victorsteven/fullstack
+module endorseview
 
 go 1.13
 

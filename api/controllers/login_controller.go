@@ -2,14 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
+	"endorseview/api/auth"
+	"endorseview/api/models"
+	"endorseview/api/responses"
+	"endorseview/api/utils/formaterror"
+	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"net/http"
-
-	"github.com/victorsteven/fullstack/api/auth"
-	"github.com/victorsteven/fullstack/api/models"
-	"github.com/victorsteven/fullstack/api/responses"
-	"github.com/victorsteven/fullstack/api/utils/formaterror"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func (server *Server) Login(w http.ResponseWriter, r *http.Request) {

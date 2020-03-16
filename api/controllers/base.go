@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"endorseview/api/models"
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
-	"github.com/victorsteven/fullstack/api/models"
 	"log"
 	"net/http"
 )

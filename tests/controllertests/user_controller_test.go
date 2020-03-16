@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"testing"
 
+	"endorseview/api/models"
 	"github.com/gorilla/mux"
-	"github.com/victorsteven/fullstack/api/models"
 	"gopkg.in/go-playground/assert.v1"
 )
 

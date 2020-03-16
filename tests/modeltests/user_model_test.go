@@ -1,8 +1,8 @@
 package modeltests
 
 import (
+	"endorseview/api/models"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres driver
-	"github.com/victorsteven/fullstack/api/models"
 	"gopkg.in/go-playground/assert.v1"
 	"log"
 	"testing"
