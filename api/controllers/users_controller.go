@@ -27,13 +27,13 @@ func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	service.User.Prepare(user)
-	err = service.User.Validate(user, "")
+	service.Prepare(user)
+	err = service.Validate(user, "")
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	userCreated, err := service.User.SaveUser(user, server.DB)
+	userCreated, err := service.SaveUser(user, server.DB)
 
 	if err != nil {
 
@@ -48,9 +48,7 @@ func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
 
-	user := models.User{}
-
-	users, err := service.User.FindAllUsers(user, server.DB)
+	users, err := service.FindAllUsers(server.DB)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
@@ -67,7 +65,7 @@ func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user := models.User{}
-	userGotten, err := service.User.FindUserByID(user, server.DB, uint32(uid))
+	userGotten, err := service.FindUserByID(user, server.DB, uint32(uid))
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
@@ -103,13 +101,13 @@ func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
-	service.User.Prepare(user)
-	err = service.User.Validate(user, "update")
+	service.Prepare(user)
+	err = service.Validate(user, "update")
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	updatedUser, err := service.User.UpdateAUser(user, server.DB, uint32(uid))
+	updatedUser, err := service.UpdateAUser(user, server.DB, uint32(uid))
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
 		responses.ERROR(w, http.StatusInternalServerError, formattedError)
@@ -136,7 +134,7 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
-	_, err = service.User{}.DeleteAUser(server.DB, uint32(uid))
+	_, err = service.DeleteAUser(server.DB, uint32(uid))
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
