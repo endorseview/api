@@ -1,11 +1,10 @@
 package middlewares
 
 import (
-	"errors"
-	"net/http"
-
 	"endorseview/api/auth"
 	"endorseview/api/responses"
+	"errors"
+	"net/http"
 )
 
 func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {

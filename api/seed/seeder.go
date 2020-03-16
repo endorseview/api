@@ -1,10 +1,9 @@
 package seed
 
 import (
-	"log"
-
 	"endorseview/api/models"
 	"github.com/jinzhu/gorm"
+	"log"
 )
 
 var users = []models.User{

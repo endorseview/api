@@ -112,7 +112,7 @@ func TestDeleteAUser(t *testing.T) {
 		log.Fatalf("Cannot seed user: %v\n", err)
 	}
 
-	isDeleted, err := userInstance.DeleteAUser(server.DB, user.ID)
+	isDeleted, err := UserService.DeleteAUser(server.DB, user.ID)
 	if err != nil {
 		t.Errorf("this is the error deleting the user: %v\n", err)
 		return

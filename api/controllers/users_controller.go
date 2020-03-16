@@ -5,6 +5,7 @@ import (
 	"endorseview/api/auth"
 	"endorseview/api/models"
 	"endorseview/api/responses"
+	"endorseview/api/service"
 	"endorseview/api/utils/formaterror"
 	"errors"
 	"fmt"
@@ -121,8 +122,6 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 
-	user := models.User{}
-
 	uid, err := strconv.ParseUint(vars["id"], 10, 32)
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)
@@ -137,7 +136,7 @@ func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
-	_, err = user.DeleteAUser(server.DB, uint32(uid))
+	_, err = service.User{}.DeleteAUser(server.DB, uint32(uid))
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
