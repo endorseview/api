@@ -10,7 +10,6 @@ services:
       - api:/usr/src/app/
     depends_on:
       - postgres # This service depends on postgres. Start that first.
-      # - mysql # This service depends on mysql. Start that first.
     networks:
       - fullstack
 
@@ -28,21 +27,6 @@ services:
       - database_postgres:/var/lib/postgresql/data
     networks:
       - fullstack
-
-  # mysql:
-  #   image: mysql:5.7
-  #   ports: 
-  #     - 3306:3306
-  #   environment: 
-  #     - MYSQL_DATABASE=${DB_NAME}
-  #     - MYSQL_USER=${DB_USER}
-  #     - MYSQL_PASSWORD=${DB_PASSWORD}
-  #     - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-  #     - DATABASE_HOST=${DB_HOST} 
-  #   volumes:
-  #     - database_mysql:/var/lib/postgresql/data
-  #   networks:
-  #     - fullstack
 
 volumes:
   api:

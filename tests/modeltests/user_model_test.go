@@ -1,13 +1,11 @@
 package modeltests
 
 import (
-	"log"
-	"testing"
-
-	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres driver
 	"github.com/victorsteven/fullstack/api/models"
 	"gopkg.in/go-playground/assert.v1"
+	"log"
+	"testing"
 )
 
 func TestFindAllUsers(t *testing.T) {
