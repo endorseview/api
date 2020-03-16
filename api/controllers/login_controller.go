@@ -5,6 +5,7 @@ import (
 	"endorseview/api/auth"
 	"endorseview/api/models"
 	"endorseview/api/responses"
+	"endorseview/api/service"
 	"endorseview/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
@@ -24,8 +25,8 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user.Prepare()
-	err = user.Validate("login")
+	service.User.Prepare(user)
+	err = service.User.Validate(user, "login")
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
@@ -49,7 +50,7 @@ func (server *Server) SignIn(email, password string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	err = models.VerifyPassword(user.Password, password)
+	err = service.VerifyPassword(user.Password, password)
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
 		return "", err
 	}
