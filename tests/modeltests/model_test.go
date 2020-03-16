@@ -14,7 +14,6 @@ import (
 
 var server = controllers.Server{}
 var userInstance = models.User{}
-var postInstance = models.Post{}
 
 func TestMain(m *testing.M) {
 	var err error
@@ -110,57 +109,12 @@ func seedUsers() error {
 	return nil
 }
 
-func refreshUserAndPostTable() error {
-
-	// NOTE: when deleting first delete Post as Post is depending on User table
-	err := server.DB.Debug().DropTableIfExists(&models.Post{}, &models.User{}).Error
-	if err != nil {
-		return err
-	}
-	err = server.DB.Debug().AutoMigrate(&models.User{}, &models.Post{}).Error
-	if err != nil {
-		return err
-	}
-	log.Printf("Successfully refreshed tables")
-	log.Printf("refreshUserAndPostTable routine OK !!!")
-	return nil
-}
-
-func seedOneUserAndOnePost() (models.Post, error) {
-
-	err := refreshUserAndPostTable()
-	if err != nil {
-		return models.Post{}, err
-	}
-	user := models.User{
-		Nickname: "Sam Phil",
-		Email:    "sam@gmail.com",
-		Password: "password",
-	}
-	err = server.DB.Debug().Model(&models.User{}).Create(&user).Error
-	if err != nil {
-		return models.Post{}, err
-	}
-	post := models.Post{
-		Title:    "This is the title sam",
-		Content:  "This is the content sam",
-		AuthorID: user.ID,
-	}
-	err = server.DB.Debug().Model(&models.Post{}).Create(&post).Error
-	if err != nil {
-		return models.Post{}, err
-	}
-
-	log.Printf("seedOneUserAndOnePost routine OK !!!")
-	return post, nil
-}
-
-func seedUsersAndPosts() ([]models.User, []models.Post, error) {
+func seedUsersAndPosts() ([]models.User, error) {
 
 	var err error
 
 	if err != nil {
-		return []models.User{}, []models.Post{}, err
+		return []models.User{}, err
 	}
 	var users = []models.User{
 		models.User{
@@ -174,29 +128,13 @@ func seedUsersAndPosts() ([]models.User, []models.Post, error) {
 			Password: "password",
 		},
 	}
-	var posts = []models.Post{
-		models.Post{
-			Title:   "Title 1",
-			Content: "Hello world 1",
-		},
-		models.Post{
-			Title:   "Title 2",
-			Content: "Hello world 2",
-		},
-	}
 
 	for i := range users {
 		err = server.DB.Debug().Model(&models.User{}).Create(&users[i]).Error
 		if err != nil {
 			log.Fatalf("cannot seed users table: %v", err)
 		}
-		posts[i].AuthorID = users[i].ID
-
-		err = server.DB.Debug().Model(&models.Post{}).Create(&posts[i]).Error
-		if err != nil {
-			log.Fatalf("cannot seed posts table: %v", err)
-		}
 	}
 	log.Printf("seedUsersAndPosts routine OK !!!")
-	return users, posts, nil
+	return users, nil
 }

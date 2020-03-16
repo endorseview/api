@@ -23,4 +23,4 @@ docker network create mynet
 docker run --name golang --net mynet golang
 
 # to run docker 
-docker-compose up
+docker-compose up --build
