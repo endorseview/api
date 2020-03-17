@@ -2,6 +2,7 @@ package modeltests
 
 import (
 	"endorseview/api/models"
+	"endorseview/api/service"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres driver
 	"gopkg.in/go-playground/assert.v1"
 	"log"
@@ -20,7 +21,7 @@ func TestFindAllUsers(t *testing.T) {
 		log.Fatalf("Error seeding user table %v\n", err)
 	}
 
-	users, err := userInstance.FindAllUsers(server.DB)
+	users, err := service.FindAllUsers(server.DB)
 	if err != nil {
 		t.Errorf("this is the error getting the users: %v\n", err)
 		return
@@ -35,12 +36,15 @@ func TestSaveUser(t *testing.T) {
 		log.Fatalf("Error user refreshing table %v\n", err)
 	}
 	newUser := models.User{
-		ID:       1,
-		Email:    "test@gmail.com",
-		Nickname: "test",
-		Password: "password",
+		ID:        1,
+		Email:     "test@gmail.com",
+		Nickname:  "test",
+		Password:  "password",
+		Firstname: "TestF ",
+		Lastname:  "TestL",
 	}
-	savedUser, err := newUser.SaveUser(server.DB)
+	savedUser, err := service.SaveUser(newUser, server.DB)
+
 	if err != nil {
 		t.Errorf("Error while saving a user: %v\n", err)
 		return
@@ -61,7 +65,8 @@ func TestGetUserByID(t *testing.T) {
 	if err != nil {
 		log.Fatalf("cannot seed users table: %v", err)
 	}
-	foundUser, err := userInstance.FindUserByID(server.DB, user.ID)
+
+	foundUser, err := service.FindUserByID(user, server.DB, user.ID)
 	if err != nil {
 		t.Errorf("this is the error getting one user: %v\n", err)
 		return
@@ -69,6 +74,8 @@ func TestGetUserByID(t *testing.T) {
 	assert.Equal(t, foundUser.ID, user.ID)
 	assert.Equal(t, foundUser.Email, user.Email)
 	assert.Equal(t, foundUser.Nickname, user.Nickname)
+	assert.Equal(t, foundUser.Firstname, user.Firstname)
+	assert.Equal(t, foundUser.Lastname, user.Lastname)
 }
 
 func TestUpdateAUser(t *testing.T) {
@@ -89,7 +96,7 @@ func TestUpdateAUser(t *testing.T) {
 		Email:    "modiupdate@gmail.com",
 		Password: "password",
 	}
-	updatedUser, err := userUpdate.UpdateAUser(server.DB, user.ID)
+	updatedUser, err := service.UpdateAUser(user, server.DB, user.ID)
 	if err != nil {
 		t.Errorf("this is the error updating the user: %v\n", err)
 		return
@@ -112,7 +119,7 @@ func TestDeleteAUser(t *testing.T) {
 		log.Fatalf("Cannot seed user: %v\n", err)
 	}
 
-	isDeleted, err := UserService.DeleteAUser(server.DB, user.ID)
+	isDeleted, err := service.DeleteAUser(server.DB, user.ID)
 	if err != nil {
 		t.Errorf("this is the error deleting the user: %v\n", err)
 		return

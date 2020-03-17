@@ -68,9 +68,11 @@ func seedOneUser() (models.User, error) {
 	}
 
 	user := models.User{
-		Nickname: "Pet",
-		Email:    "pet@gmail.com",
-		Password: "password",
+		Nickname:  "Pet",
+		Email:     "pet@gmail.com",
+		Password:  "password",
+		Firstname: "Peter",
+		Lastname:  "Pan",
 	}
 
 	err = server.DB.Model(&models.User{}).Create(&user).Error
@@ -88,14 +90,18 @@ func seedUsers() ([]models.User, error) {
 	}
 	users := []models.User{
 		models.User{
-			Nickname: "Steven victor",
-			Email:    "steven@gmail.com",
-			Password: "password",
+			Nickname:  "Benan Aktas",
+			Email:     "aktas.benan@gmail.com",
+			Password:  "password",
+			Firstname: "Benan",
+			Lastname:  "Aktas",
 		},
 		models.User{
-			Nickname: "Kenny Morris",
-			Email:    "kenny@gmail.com",
-			Password: "password",
+			Nickname:  "Cetin Baskose",
+			Email:     "cetinbaskose@gmail.com",
+			Password:  "password",
+			Firstname: "Cetin",
+			Lastname:  "Baskose",
 		},
 	}
 	for i, _ := range users {
